@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const JobSearchApp = () => {
   const [sites, setSites] = useState([
@@ -8,11 +8,14 @@ const JobSearchApp = () => {
     'jobs.jobvite.com',
     'myworkdayjobs.com',
     'careers.jobscore.com',
-    'ats.comparably.com'
+    'ats.comparably.com',
   ]);
+  const [jobTitle, setJobTitle] = useState('Senior Software Engineer');
+  const [technology, setTechnology] = useState('Java');
 
-  const [jobTitle, setJobTitle] = useState('');
-  const [technology, setTechnology] = useState('');
+  useEffect(() => {
+    document.title = 'Job Search App - Rodrigo Rique';
+  }, []);
 
   const handleSearch = () => {
     sites.forEach((site) => {
@@ -22,34 +25,50 @@ const JobSearchApp = () => {
     });
   };
 
+  const handleSitesChange = (event) => {
+    const updatedSites = event.target.value.split('\n');
+    setSites(updatedSites);
+  };
+
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Job Search Tool</h1>
-      <textarea
-        rows={7}
-        value={sites.join('\n')}
-        readOnly
-        style={{ width: '100%', marginBottom: '20px' }}
-      />
-      <div>
+      <h1>Job Search App</h1>
+      <label>
+        Lista de Sites:
+        <textarea
+          value={sites.join('\n')}
+          onChange={handleSitesChange}
+          rows="7"
+          cols="40"
+          style={{ display: 'block', margin: '10px 0' }}
+        />
+      </label>
+      <label>
+        Nome do Cargo:
         <input
           type="text"
-          placeholder="Nome do cargo"
           value={jobTitle}
           onChange={(e) => setJobTitle(e.target.value)}
-          style={{ width: '100%', marginBottom: '10px' }}
+          style={{ display: 'block', margin: '10px 0' }}
         />
+      </label>
+      <label>
+        Tecnologia:
         <input
           type="text"
-          placeholder="Tecnologia"
           value={technology}
           onChange={(e) => setTechnology(e.target.value)}
-          style={{ width: '100%', marginBottom: '20px' }}
+          style={{ display: 'block', margin: '10px 0' }}
         />
-        <button onClick={handleSearch} style={{ width: '100%' }}>
-          Buscar
-        </button>
-      </div>
+      </label>
+      <button onClick={handleSearch}>Buscar</button>
+
+      {}
+      <footer style={{ marginTop: '20px', textAlign: 'left' }}>
+        <p>Rodrigo Rique</p>
+        <p><a href="https://www.linkedin.com/in/rodrigorique/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/rodrigorique/</a></p>
+        <p><a href="https://github.com/rodrigorique/job-search-app" target="_blank" rel="noopener noreferrer">https://github.com/rodrigorique/job-search-app</a></p>
+      </footer>
     </div>
   );
 };
